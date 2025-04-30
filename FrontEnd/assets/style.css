@@ -84,6 +84,39 @@ h2{
 	font-size: 30px;
 	color: #1D6154
 }
+
+/* Ajout CSS Pour les Boutons  */
+.filters {
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	margin: 20px 0;
+	flex-wrap: wrap;
+}
+
+.filter-btn {
+	font-family: "Syne", sans-serif;
+	padding: 10px 20px;
+	border: 1px solid #1D6154;
+	border-radius: 60px; 
+	color: #1D6154;
+	background-color: white;
+	font-size: 14px;
+	font-weight: 700;
+	cursor: pointer;
+	transition: all 0.3s;
+	min-width: 100px; }
+
+.filter-btn.active {
+background-color: #1D6154;
+color: white;
+}
+
+.filter-btn:not(.active):hover {
+	background-color: #1D6154;
+	color: white;
+}
+
 nav ul {
 	display: flex;
 	align-items: center;
