@@ -219,3 +219,83 @@ footer nav ul {
 	margin: 2em
 }
 
+/* Ajout CSS Pour page login  */
+
+
+#login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 600px;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+#login h2 {
+    margin-bottom: 30px;
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+}
+
+#login form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+#login label {
+    margin: 16px 0 8px 0;
+    font-family: "Work Sans", sans-serif;
+}
+
+#login input {
+    height: 50px;
+    font-size: 19px;
+    border: none;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+    padding: 0 15px;
+    margin-bottom: 1em;
+}
+
+#login input[type=submit] {
+    font-family: "Syne";
+    font-weight: 700;
+    color: white;
+    background-color: #1D6154;
+    border: none;
+    margin: 2em auto 0;
+    width: 180px;
+    border-radius: 60px;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+#login input[type=submit]:hover {
+    background-color: #0e473a;
+}
+
+#login p {
+    margin-top: 2em;
+    text-align: center;
+}
+
+#login a {
+    color: #3d3d3d;
+    text-decoration: underline;
+}
+
+footer nav ul {
+	display: flex;
+	justify-content: flex-end;
+	margin: 2em;
+}
+
+
+/* Ajout CSS mix */
+header nav a {
+	text-decoration: none;
+	color: #000000
+}
