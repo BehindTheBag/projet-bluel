@@ -1,15 +1,18 @@
+//Fonction pour charger les travaux depuis l'API
+
 async function loadWorks() {
   const url = "http://localhost:5678/api/works";
   try {
     const response = await fetch(url);
     if (!response.ok) throw new Error(`Response status: ${response.status}`);
-    const json = await response.json();
+    const json = await response.json(); // chaque JSON appelle la fonction addFigure
     json.forEach(item => addFigure(item));
   } catch (error) {
     console.error(error.message);
   }
 }
 
+// Création et ajout d'un élément figure à la galerie 
 function addFigure(data) {
   const gallery = document.querySelector(".gallery");
   const figure = document.createElement("figure");
@@ -21,6 +24,7 @@ function addFigure(data) {
   gallery.append(figure);
 }
 
+// Charge les catégories depuis l'API
 async function loadCategories() {
   const url = "http://localhost:5678/api/categories";
   try {
@@ -33,6 +37,7 @@ async function loadCategories() {
   }
 }
 
+// Ajoute les boutons filtre pour chaque catégorie
 function addFilters(categories) {
   const filtersContainer = document.querySelector('.filters');
   const existingButtons = Array.from(filtersContainer.children);
@@ -50,6 +55,7 @@ function addFilters(categories) {
   filterButtons();
 }
 
+// event listener en fonction des boutons 
 function filterButtons() {
   const buttons = document.querySelectorAll('.filter-btn');
   buttons.forEach(button => {
@@ -72,13 +78,28 @@ function filterByCategory(categoryId) {
   }
 }
 
+// Apparition du mode Edit 
+function adminLogged() {
+  const token = sessionStorage.getItem("userToken");
+
+  if (token) {
+    const editAppear = document.createElement("div");
+    editAppear.className = "edit";
+    editAppear.innerHTML = `
+      <i class="fa-solid fa-pen-to-square"></i>
+      <p>Mode édition</p>
+    `;
+    document.body.prepend(editAppear);
+  }
+}
+
+// Appelle au chargement de la page
 document.addEventListener('DOMContentLoaded', () => {
   loadWorks();
   loadCategories();
   filterByCategory('all');
+  adminLogged();
 });
-
-console.log();
 
 
 
