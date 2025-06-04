@@ -22,7 +22,21 @@ function addFigure(data) {
     <figcaption>${data.title}</figcaption>
   `;
   gallery.append(figure);
+
+  const modalGallery = document.querySelector(".modal-gallery");
+  if (modalGallery) {
+    const modalFigure = document.createElement("figure");
+    modalFigure.dataset.category = data.categoryId;
+    modalFigure.innerHTML = `
+      <img src="${data.imageUrl}" alt="${data.title}">
+      <button class="delete-work" data-id="${data.id}">
+        <i class="fa-solid fa-trash-can overlay-icon"></i>
+      </button>
+    `;
+    modalGallery.append(modalFigure);
+  }
 }
+
 
 // Charge les catégories depuis l'API
 async function loadCategories() {
@@ -95,6 +109,9 @@ const editAppear = document.createElement("div");
   editTrigger.classList.add('js-modal'); // Active le système existant
   editTrigger.setAttribute('href', '#modal1'); // Lie à la modale
   editTrigger.style.cursor = 'pointer'; 
+
+   const loginLink = document.querySelector('a[href="login.html"]'); // Pour le logout
+    if (loginLink) loginLink.textContent = 'Logout';
 }
 }
 

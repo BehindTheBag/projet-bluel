@@ -16,18 +16,14 @@
 <!-- Modale de test -->
 <aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display: none">
   <div class="modal-wrapper js-modal-stop">
-    <div class="gallery-modal">
-      <div class="close-button-container">
-        <button class="js-modal-close"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <h3>Galerie Photo</h3>
-      <h2>Test réussi</h2>
-      <p>Modale fonctionne correctement</p>
-      <div class="modal-gallery"></div>
-      <hr />
-      <div class="modal-button-container">
-        <button class="add-photo-button">Ajouter une photo</button>
-      </div>
+    <div class="closing-button"> 
+      <button class="js-modal-close"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <h3>Galerie Photo</h3>
+    <div class="modal-gallery"></div>
+    <hr />
+    <div class="btn-wrapper">
+      <button class="adding-button">Ajouter une photo</button>
     </div>
   </div>
 </aside>
@@ -57,7 +53,10 @@
 		</article>
 	</section>
 	<section id="portfolio">
+			<!-- check -->
 		<h2>Mes Projets</h2>
+		   <a href="#modal1" style="display: none" class="js-modal js-modal-2"><i class="fa-regular fa-pen-to-square"></i>Mode édition</a>
+        </div>
 		<div class="filters">
 			<button id="filter-all" class="filter-btn active" data-category="all">Tous
 			</button>
