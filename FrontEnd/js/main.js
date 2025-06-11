@@ -5,7 +5,7 @@ async function loadWorks() {
   try {
     const response = await fetch(url);
     if (!response.ok) throw new Error(`Response status: ${response.status}`);
-    const json = await response.json(); // chaque JSON appelle la fonction addFigure
+    const json = await response.json();
     json.forEach(item => addFigure(item));
   } catch (error) {
     console.error(error.message);
@@ -17,16 +17,19 @@ function addFigure(data) {
   const gallery = document.querySelector(".gallery");
   const figure = document.createElement("figure");
   figure.dataset.category = data.categoryId;
+  figure.id = `gallery-figure-${data.id}`;
   figure.innerHTML = `
     <img src="${data.imageUrl}" alt="${data.title}">
     <figcaption>${data.title}</figcaption>
   `;
   gallery.append(figure);
 
+  // addFigure type 2 (côté modal)
   const modalGallery = document.querySelector(".modal-gallery");
-  if (modalGallery) {
+  if (modalGallery) { 
     const modalFigure = document.createElement("figure");
     modalFigure.dataset.category = data.categoryId;
+    modalFigure.id = `modal-figure-${data.id}`;
     modalFigure.innerHTML = `
       <img src="${data.imageUrl}" alt="${data.title}">
       <button class="delete-work" data-id="${data.id}">
@@ -34,9 +37,12 @@ function addFigure(data) {
       </button>
     `;
     modalGallery.append(modalFigure);
+
+    // Écouteur de clic pour supprimer
+    const deleteButton = modalFigure.querySelector(".delete-work");
+    deleteButton.addEventListener("click", () => deleteWork(data.id));
   }
 }
-
 
 // Charge les catégories depuis l'API
 async function loadCategories() {
@@ -97,24 +103,23 @@ function adminLogged() {
   const token = sessionStorage.getItem("userToken");
 
   if (token) {
-const editAppear = document.createElement("div");
-  editAppear.className = "edit";
-  editAppear.innerHTML = `
-    <i class="fa-solid fa-pen-to-square"></i>
-    <p>Mode édition</p>
-  `;
-  document.body.prepend(editAppear);
+    const editAppear = document.createElement("div");
+    editAppear.className = "edit";
+    editAppear.innerHTML = `
+      <i class="fa-solid fa-pen-to-square"></i>
+      <p>Mode édition</p>
+    `;
+    document.body.prepend(editAppear);
 
-  const editTrigger = editAppear.querySelector('p');
-  editTrigger.classList.add('js-modal'); // Active le système existant
-  editTrigger.setAttribute('href', '#modal1'); // Lie à la modale
-  editTrigger.style.cursor = 'pointer'; 
+    const editTrigger = editAppear.querySelector('p');
+    editTrigger.classList.add('js-modal');
+    editTrigger.setAttribute('href', '#modal1');
+    editTrigger.style.cursor = 'pointer';
 
-   const loginLink = document.querySelector('a[href="login.html"]'); // Pour le logout
+    const loginLink = document.querySelector('a[href="login.html"]');
     if (loginLink) loginLink.textContent = 'Logout';
+  }
 }
-}
-
 
 adminLogged();
 
@@ -191,8 +196,33 @@ document.querySelectorAll(".js-modal").forEach((a) => {
   a.addEventListener("click", openModal);
 });
 
+// Suppression d'un élément de la galerie (trashicon)
+async function deleteWork(id) {
+  const url = `http://localhost:5678/api/works/${id}`;
+  const token = sessionStorage.getItem("userToken");
 
+  try {
+    const response = await fetch(url, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
+    if (!response.ok) {
+      throw new Error(`Erreur suppression (status ${response.status})`);
+    }
+
+    const modalFigure = document.getElementById(`modal-figure-${id}`);
+    const galleryFigure = document.getElementById(`gallery-figure-${id}`);
+    
+    if (modalFigure) modalFigure.remove();
+    if (galleryFigure) galleryFigure.remove();
+
+  } catch (error) {
+    console.error(error.message);
+  }
+}
 
 // Appelle au chargement de la page
 document.addEventListener('DOMContentLoaded', () => {
@@ -201,6 +231,5 @@ document.addEventListener('DOMContentLoaded', () => {
   filterByCategory('all');
   adminLogged();
 });
-
 
 
