@@ -224,12 +224,90 @@ async function deleteWork(id) {
   }
 }
 
+// Ouvrir Modal 2
+const addingButton = document.querySelector(".adding-button.js-open-modal2");
+
+if (addingButton) {
+  addingButton.addEventListener("click", function (e) {
+    e.preventDefault();
+    openModal2(e);
+  });
+} else {
+  console.log("Le bouton Ajouter une photo est introuvable");
+}
+
+// MODALE 2 
+
+function openModal2(e) {
+  e.preventDefault();
+
+  // Cacher modal1 si visible
+  const modal1 = document.querySelector("#modal1");
+  if (modal1 && modal1.style.display !== "none") {
+    modal1.style.display = "none";
+    modal1.setAttribute("aria-hidden", "true");
+    modal1.removeAttribute("aria-modal");
+  }
+
+  modal2 = document.querySelector("#modal2");
+  if (!modal2) {
+    console.error("Modal #modal2 introuvable");
+    return;
+  }
+  modal2.style.display = "block";
+  modal2.removeAttribute("aria-hidden");
+  modal2.setAttribute("aria-modal", "true");
+
+  modal2.addEventListener("click", closeModal2);
+  modal2.querySelectorAll(".js-modal-close").forEach(btn => btn.addEventListener("click", closeModal2));
+  const modalContent = modal2.querySelector(".js-modal-stop");
+  if (modalContent) modalContent.addEventListener("click", e => e.stopPropagation());
+}
+
+
+function closeModal2(e) {
+  if (!modal2) return;
+  e.preventDefault();
+  modal2.style.display = "none";
+  modal2.setAttribute("aria-hidden", "true");
+  modal2.removeAttribute("aria-modal");
+
+  modal2.removeEventListener("click", closeModal2);
+
+  const closeButtons = modal2.querySelectorAll(".js-modal-close");
+  closeButtons.forEach(btn => btn.removeEventListener("click", closeModal2));
+
+  const modalContent = modal2.querySelector(".js-modal-stop");
+  if (modalContent) modalContent.removeEventListener("click", e => e.stopPropagation());
+
+  function openModal2(e) {
+    e.preventDefault();
+    document.getElementById("modal2").classList.add("active");
+}
+
+function closeModal2(e) {
+    e.preventDefault();
+    document.getElementById("modal2").classList.remove("active");
+}
+
+console.log("Modal2 element:", document.getElementById("modal2"));
+console.log("Modal2 computed display:", window.getComputedStyle(document.getElementById("modal2")).display);
+
+
+}
+
+
+
 // Appelle au chargement de la page
 document.addEventListener('DOMContentLoaded', () => {
   loadWorks();
   loadCategories();
   filterByCategory('all');
   adminLogged();
+  const addingButton = document.getElementById("adding-button");
+if (addingButton) {
+  addingButton.addEventListener("click", openModal2);
+}
 });
 
 

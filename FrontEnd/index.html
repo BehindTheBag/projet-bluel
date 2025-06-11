@@ -13,22 +13,44 @@
 	<script src="js/main.js" defer></script>
 </head>
 
-<!-- Modale de test -->
+
+
+
+<body>
+	
+	<!-- Modale de test -->
 <aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display: none">
-  <div class="modal-wrapper js-modal-stop">
+<div class="modal-wrapper js-modal-stop">
     <div class="closing-button"> 
-      <button class="js-modal-close"><i class="fa-solid fa-xmark"></i></button>
+    <button class="js-modal-close"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <h3>Galerie Photo</h3>
     <div class="modal-gallery"></div>
     <hr />
     <div class="btn-wrapper">
-      <button class="adding-button">Ajouter une photo</button>
+    <button class="adding-button js-open-modal2">Ajouter une photo</button>
     </div>
-  </div>
+</div>
 </aside>
 
-<body>
+<!-- Deuxième modale (modal2) -->
+<aside id="modal2" class="modal2" aria-hidden="true" style="display: none">
+<div class="modal-wrapper2 js-modal-stop">
+    <div class="closing-button">
+    <button class="js-modal-close" aria-label="Fermer">
+        <i class="fa-solid fa-xmark"></i>
+    </button>
+    </div>
+    <h3>Ajout photo</h3>
+    <hr />
+    <p>Contenu ici</p>
+    <div class="btn-wrapper">
+    <button class="confirm-button">Valider</button>
+    </div>
+</div>
+</aside>
+
+
 <header>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
