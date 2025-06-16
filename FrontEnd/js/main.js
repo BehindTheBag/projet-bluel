@@ -232,71 +232,53 @@ if (addingButton) {
     e.preventDefault();
     openModal2(e);
   });
-} else {
-  console.log("Le bouton Ajouter une photo est introuvable");
 }
 
 // MODALE 2 
 
-function openModal2(e) {
+const openModal2 = function (e) {
   e.preventDefault();
 
-  // Cacher modal1 si visible
   const modal1 = document.querySelector("#modal1");
-  if (modal1 && modal1.style.display !== "none") {
-    modal1.style.display = "none";
-    modal1.setAttribute("aria-hidden", "true");
-    modal1.removeAttribute("aria-modal");
-  }
-
-  modal2 = document.querySelector("#modal2");
-  if (!modal2) {
-    console.error("Modal #modal2 introuvable");
-    return;
-  }
-  modal2.style.display = "block";
-  modal2.removeAttribute("aria-hidden");
-  modal2.setAttribute("aria-modal", "true");
-
-  modal2.addEventListener("click", closeModal2);
-  modal2.querySelectorAll(".js-modal-close").forEach(btn => btn.addEventListener("click", closeModal2));
-  const modalContent = modal2.querySelector(".js-modal-stop");
-  if (modalContent) modalContent.addEventListener("click", e => e.stopPropagation());
-}
-
-
-function closeModal2(e) {
+  const modal2 = document.querySelector("#modal2");
   if (!modal2) return;
-  e.preventDefault();
-  modal2.style.display = "none";
-  modal2.setAttribute("aria-hidden", "true");
-  modal2.removeAttribute("aria-modal");
 
-  modal2.removeEventListener("click", closeModal2);
+  // Fermer modal 
+  modal1.style.display = "none";
+  modal1.setAttribute("aria-hidden", "true");
+  modal1.removeAttribute("aria-modal");
 
-  const closeButtons = modal2.querySelectorAll(".js-modal-close");
-  closeButtons.forEach(btn => btn.removeEventListener("click", closeModal2));
+  // Ouvrir modal2
+  modal = modal2;
+  focusables = Array.from(modal.querySelectorAll(focusableSelector));
+  if (focusables.length > 0) focusables[0].focus();
+  modal.style.display = "block";
+  modal.removeAttribute("aria-hidden");
+  modal.setAttribute("aria-modal", "true");
+  modal.addEventListener("click", closeModal);
+  modal.querySelectorAll(".js-modal-close").forEach(btn => btn.addEventListener("click", closeModal));
+  modal.querySelector(".js-modal-stop")?.addEventListener("click", stopPropagation);
+};
 
-  const modalContent = modal2.querySelector(".js-modal-stop");
-  if (modalContent) modalContent.removeEventListener("click", e => e.stopPropagation());
+// Formulaire Modale 2
+function injectFormModal() {
+  const container = document.querySelector("#modal2-content");
+  if (!container) return;
 
-  function openModal2(e) {
-    e.preventDefault();
-    document.getElementById("modal2").classList.add("active");
+  container.innerHTML = `
+    <form class="form-modal" action="#" method="post">
+      <label for="title">Titre</label>
+      <input type="text" id="title" name="title" placeholder="Je suis le titre" required>
+
+      <label for="category">Catégorie</label>
+      <input type="text" id="category" name="category" placeholder="Je suis la catégorie" required>
+    </form>
+  `;
 }
 
-function closeModal2(e) {
-    e.preventDefault();
-    document.getElementById("modal2").classList.remove("active");
-}
+// Commentary 
 
-console.log("Modal2 element:", document.getElementById("modal2"));
-console.log("Modal2 computed display:", window.getComputedStyle(document.getElementById("modal2")).display);
-
-
-}
-
-
+// Commentary 
 
 // Appelle au chargement de la page
 document.addEventListener('DOMContentLoaded', () => {
@@ -304,10 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadCategories();
   filterByCategory('all');
   adminLogged();
-  const addingButton = document.getElementById("adding-button");
-if (addingButton) {
-  addingButton.addEventListener("click", openModal2);
-}
-});
+  injectFormModal();
+  });
 
 

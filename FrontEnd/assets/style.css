@@ -465,38 +465,66 @@ font-size: 12px;
 }
 
 .modal2 {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
-    z-index: 1001;
-    display: none;
-    overflow: auto;
-}
-
-.modal2.active {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+  z-index: 1001;
 }
 
 .modal-wrapper2 {
-    width: 600px;
-    max-width: calc(100vw - 40px);
-    max-height: calc(100vh - 40px);
-    background: white;
-    border-radius: 8px;
-    padding: 20px;
-    position: relative;
-    overflow: auto;
-    margin: auto;
-	margin-top:30%;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    transform: none;
-    box-sizing: border-box;
+  background: white;
+  width: 600px;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 10px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(42.5%);
+  margin: auto;
+}
+
+.modal2.active {
+  display: flex;
+}
+
+
+/* Formulaire Modale 2 */
+#modal2-content {
+  width: 100%;
+}
+
+#modal2-content > * {
+  text-align: center;
+}
+
+#modal2-content h2 {
+  margin-bottom: 20px;
+}
+
+#modal2-content form {
+  text-align: left;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+#modal2-content input,
+#modal2-content textarea {
+  height: 50px;
+  font-size: 1.2em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  padding: 0 10px;
+}
+
+#modal2-content label {
+  margin: 2em 0 1em 0;
 }
