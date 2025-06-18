@@ -18,7 +18,7 @@
 
 <body>
 	
-	<!-- Modale de test -->
+	<!-- Modale 1 -->
 <aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display: none">
 <div class="modal-wrapper js-modal-stop">
     <div class="closing-button"> 
@@ -33,22 +33,52 @@
 </div>
 </aside>
 
-<!-- Deuxième modale (modal2) -->
-<aside id="modal2" class="modal2" aria-hidden="true" style="display: none">
+<!-- Modale 2 -->
+<aside id="modal2" class="modal2" aria-hidden="true" style="display: none;">
 <div class="modal-wrapper2 js-modal-stop">
     <div class="closing-button">
+    <button class="js-modal-back" aria-label="Retour">
+    <i class="fa-solid fa-arrow-left"></i>
+    </button>
     <button class="js-modal-close" aria-label="Fermer">
         <i class="fa-solid fa-xmark"></i>
     </button>
     </div>
     <h3>Ajout photo</h3>
-	<div id="modal2-content"></div>
-    <hr />
-    <div class="btn-wrapper">
-    <button class="confirm-button">Valider</button>
+
+
+        <div id="modal2-content">
+
+<form id="adding-form" action="#" method="post">
+    <div class="zone-upload">
+        <div id="input-container"></div>
+        <div class="icon-upload"><i class="fa-regular fa-image"></i></div>
+    <label class="picture-upload" for="file">+ Ajouter photo</label>
+    <input type="file" id="file" name="file" accept="image/png, image/jpeg" class="file-input-hidden" />
+    <div id="upload-preview"></div>
+	<p class="upload-info">jpg, png : 4mo max</p>
+    </div>
+
+    <label for="title">Titre</label>
+    <input type="text" name="title" id="title" />
+
+	<label for="category">Catégorie</label>
+        <select id="category" name="category" size="1">
+            <option value="1">Objets</option>
+            <option value="2">Appartements</option>
+            <option value="3">Hotels & restaurants</option>
+        </select>
+		</div>
+        <hr />
+        <div class="btn-wrapper">
+        <button class="confirm-button">Valider</button>
+        </div>
+    </form>
     </div>
 </div>
 </aside>
+
+
 
 
 <header>
@@ -76,7 +106,9 @@
 	</section>
 	<section id="portfolio">
 			<!-- check -->
-		<h2>Mes Projets</h2>
+		<div class="tittle-appear">
+    <h2>Mes projets</h2>
+    </div>
 		<a href="#modal1" style="display: none" class="js-modal js-modal-2"><i class="fa-regular fa-pen-to-square"></i>Mode édition</a>
         </div>
 		<div class="filters">

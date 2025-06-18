@@ -99,6 +99,18 @@ function filterByCategory(categoryId) {
 }
 
 // Apparition du mode Edit 
+function modeAppear() {
+  const container = document.createElement("div");
+  container.className = "edit-title"; // 
+  container.innerHTML = `
+    <i class="fa-solid fa-pen-to-square"></i>
+    <p class="js-modal" href="#modal1" style="cursor: pointer">Mode édition</p>
+  `;
+  return container; 
+}
+
+
+
 function adminLogged() {
   const token = sessionStorage.getItem("userToken");
 
@@ -118,10 +130,18 @@ function adminLogged() {
 
     const loginLink = document.querySelector('a[href="login.html"]');
     if (loginLink) loginLink.textContent = 'Logout';
+
+const portfolioH2 = document.querySelector('#portfolio h2');
+    if (portfolioH2) {
+      portfolioH2.insertAdjacentElement('afterend', modeAppear());
+    }
+
   }
 }
-
 adminLogged();
+
+
+
 
 // MODALE
 let modal = null;
@@ -257,36 +277,161 @@ const openModal2 = function (e) {
   modal.setAttribute("aria-modal", "true");
   modal.addEventListener("click", closeModal);
   modal.querySelectorAll(".js-modal-close").forEach(btn => btn.addEventListener("click", closeModal));
+  modal.querySelector(".js-modal-back")?.addEventListener("click", backToModal1); // link
   modal.querySelector(".js-modal-stop")?.addEventListener("click", stopPropagation);
 };
 
+
+
 // Formulaire Modale 2
-function injectFormModal() {
-  const container = document.querySelector("#modal2-content");
-  if (!container) return;
+// function injectFormModal() {
+  //const container = document.querySelector("#modal2-content");
+  //if (!container) return;
 
-  container.innerHTML = `
-    <form class="form-modal" action="#" method="post">
-      <label for="title">Titre</label>
-      <input type="text" id="title" name="title" placeholder="Je suis le titre" required>
+  //container.innerHTML = `
+    //<form class="form-modal" action="#" method="post">
+      //<label for="title">Titre</label>
+      //<input type="text" id="title" name="title" placeholder="Je suis le titre" required>
 
-      <label for="category">Catégorie</label>
-      <input type="text" id="category" name="category" placeholder="Je suis la catégorie" required>
-    </form>
-  `;
+      //<label for="category">Catégorie</label>
+      //<input type="text" id="category" name="category" placeholder="Je suis la catégorie" required>
+   // </form>
+  //`;
+// }
+
+// Transition Modale
+
+const backToModal1 = function (e) {
+  e.preventDefault();
+
+  const modal1 = document.querySelector("#modal1");
+  const modal2 = document.querySelector("#modal2");
+
+  // Fermer modal2
+  modal2.style.display = "none";
+  modal2.setAttribute("aria-hidden", "true");
+  modal2.removeAttribute("aria-modal");
+
+  // Ouvrir modal1
+  modal = modal1;
+  focusables = Array.from(modal.querySelectorAll(focusableSelector));
+  if (focusables.length > 0) focusables[0].focus();
+  modal.style.display = "flex"; // bien centré
+  modal.removeAttribute("aria-hidden");
+  modal.setAttribute("aria-modal", "true");
+
+  // Appliquer les bons écouteurs
+  modal.addEventListener("click", closeModal);
+  modal.querySelectorAll(".js-modal-close").forEach(btn => btn.addEventListener("click", closeModal));
+  modal.querySelector(".js-modal-back")?.addEventListener("click", backToModal1); // link
+  modal.querySelector(".js-modal-stop")?.addEventListener("click", stopPropagation);
+  
+  
+  
+};
+
+
+// Prévisualitation & autres
+
+const fileInput = document.getElementById('file');
+const preview = document.getElementById('upload-preview');
+
+if (fileInput && preview) {
+  fileInput.addEventListener('change', function () {
+    const file = this.files[0];
+
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+
+      reader.onload = function () {
+        preview.innerHTML = ''; // Efface l’ancienne image s’il y en a une
+        const img = document.createElement('img');
+        img.src = reader.result;
+        img.alt = 'Prévisualisation';
+        img.style.maxWidth = '100%';
+        img.style.borderRadius = '8px';
+        preview.appendChild(img);
+
+      document.querySelector('.icon-upload').style.display = 'none';
+      document.querySelector('.picture-upload').style.display = 'none';
+      document.querySelector('.upload-info').style.display = 'none';
+    };
+
+      
+
+      reader.readAsDataURL(file);
+    }
+  });
 }
 
-// Commentary 
+// Requête fetch POST MODALE 2
 
-// Commentary 
+const form = document.querySelector("#modal2-content form");
+
+if (form) {
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const token = sessionStorage.getItem("userToken");
+    const title = document.getElementById("title").value;
+    const category = document.getElementById("category").value;
+    const file = document.getElementById("file").files[0];
+
+    if (!file || !title || !category) {
+      alert("Tous les champs doivent être remplis.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("image", file);
+    formData.append("title", title);
+    formData.append("category", category);
+
+    try {
+      const response = await fetch("http://localhost:5678/api/works", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        body: formData
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erreur API: ${response.status}`);
+      }
+
+      const newWork = await response.json();
+
+      // Ajoute dans la galerie et dans la modale
+      addFigure(newWork);
+
+      // Réinitialise le formulaire et la preview
+      form.reset();
+      preview.innerHTML = "";
+      document.querySelector('.icon-upload').style.display = '';
+      document.querySelector('.picture-upload').style.display = '';
+      document.querySelector('.upload-info').style.display = '';
+
+      // Retour à la modale 1
+      backToModal1(e);
+
+    } catch (error) {
+      console.error("Erreur ajout:", error);
+      alert("Échec de l'envoi de l'image.");
+    }
+  });
+}
+
+
+
 
 // Appelle au chargement de la page
 document.addEventListener('DOMContentLoaded', () => {
   loadWorks();
   loadCategories();
   filterByCategory('all');
-  adminLogged();
-  injectFormModal();
   });
+
+
 
 
