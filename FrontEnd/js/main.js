@@ -323,22 +323,6 @@ const openModal2 = function (e) {
 
 
 
-// Formulaire Modale 2
-// function injectFormModal() {
-  //const container = document.querySelector("#modal2-content");
-  //if (!container) return;
-
-  //container.innerHTML = `
-    //<form class="form-modal" action="#" method="post">
-      //<label for="title">Titre</label>
-      //<input type="text" id="title" name="title" placeholder="Je suis le titre" required>
-
-      //<label for="category">Catégorie</label>
-      //<input type="text" id="category" name="category" placeholder="Je suis la catégorie" required>
-   // </form>
-  //`;
-// }
-
 // Transition Modale
 
 const backToModal1 = function (e) {
@@ -453,7 +437,7 @@ if (form) {
       document.querySelector('.upload-info').style.display = '';
 
       // Retour à la modale 1
-      backToModal1(e);
+      closeModal(e); // ancien back 
 
     } catch (error) {
       console.error("Erreur ajout:", error);
