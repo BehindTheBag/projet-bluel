@@ -21,3 +21,4 @@ email: sophie.bluel@test.tld
 
 password: S0phie
 
+https://github.com/BehindTheBag/projet-bluel
